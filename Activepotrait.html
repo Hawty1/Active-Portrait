@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+#Adjustable_Picture{
+    display:flex;
+    width:315px;
+    background-color:yellow;
+    height:200px;
+    }
+#portrait{
+  position:absolute;
+  width:200px;
+  height:200px;
+  background-color:lightblue;
+  border-style:dotted;
+  }
+#grass-line{
+  display:flex;
+  position:relative;
+  top:75%;
+  width:100%;
+  height:3px;
+  background-color:green;
+
+}
+.grass{
+  position:relative;
+  top:-207%;
+  margin-right:0.5%;
+  margin-left:0.5%;
+  width:0.6%;
+  height:7px;
+  background-color:green;
+}
+#controlebox{
+  position:relative;
+margin-left:auto;
+margin-right:1%;
+margin-top:1%;
+margin-bottom:1%;
+padding:0.1%;
+width:105px;
+border-style:solid;
+}
+#grass-input{
+  width:100px;
+}
+#weather-input{
+  width:100px;
+}
+#sky-line{
+  display:flex;
+  padding:3px;
+  width:97%;
+  background-color:skyblue;
+  margin-top:-2%;
+
+}
+#sun{
+  height:30px;
+  width:30px;
+  border-radius:100%;
+  background-color:yellow;
+}
+.cloud_big{
+  display:flex;
+  height:26px;
+  margin:2px;
+  width:50px;
+  background-color:grey;
+  border-radius:100%;
+  opacity:0.01;
+}
+.sun-light{
+  position:relative;
+  width:20px;
+  height:0.5px;
+  background-color:black;
+  opacity:0%;
+  transparent:50%;
+}
+  </style>
+
+</head>
+<body>
+<div id="Adjustable_Picture">
+<div id="portrait" draggable="false">
+    <div id="grass-line">
+      <div class="grass"> </div>
+        </div>
+    <div id="sky-line">
+      <div class="cloud_big"></div>
+      <div id="sun">
+          <div class="sun-light" style="top:50%;right:80%;"></div>
+            <div class="sun-light" style="top:50%;left:120%;"></div>
+              <div class="sun-light" style="top:140%;left:15%;transform: rotate(90deg);"></div>
+                <div class="sun-light" style="top:-7%;left:100%;transform: rotate(150deg);width:10px;"></div>
+                <div class="sun-light" style="top:-7%;right:35%;transform: rotate(-150deg);width:10px;"></div>
+                <div class="sun-light" style="top:110%;right:65%;transform: rotate(-45deg);"></div>
+                <div class="sun-light" style="top:110%;left:90%;transform: rotate(45deg);"></div>
+      </div>
+      <div class="cloud_big"></div>
+      <div class="cloud_big"></div>
+      </div>
+</div>
+<div id="controlebox"><form>
+    <label for="grass-input" style="font-size:0.8em;">Grass-density</label>
+    <input type="range" id="grass-input" name="grass" min="1" max="62" value="1" oninput="addGrass(this.value)" background:"transparent">
+    <!--    <button type="button" onclick="console.log(grass_density)"> </button> -->
+    <input type="range" id="weather-input" name="weather" min="1" max="100" value="1" oninput="addWeather(this.value)">
+    </form></div>
+
+</div>
+<script>
+
+window.getCount = function(parent, getChildrensChildren){
+    var relevantChildren = 0;
+    var children = parent.childNodes.length;
+    for(var i=0; i < children; i++){
+        if(parent.childNodes[i].nodeType != 3){
+            if(getChildrensChildren)
+                relevantChildren += getCount(parent.childNodes[i],true);
+            relevantChildren++;
+        }
+    }
+    return relevantChildren;
+
+}   // count how many divs are already in the grass line
+
+function removeElement(elementId) {
+  // Removes an element from the document.
+  var element = document. getElementById(elementId);
+  element. parentNode. removeChild(element);
+  }
+
+
+var grass_density = getCount(document.getElementById("grass-line"),false); // var which has the value of the number of grass-div childs
+function addGrass(x){
+    if (x > grass_density){
+    x -= grass_density;
+    for(i=0; x > i;i++){ // for each valuepoint one div will be created
+    var NewGrass = document.createElement("div");    // creating new grass div
+    NewGrass.classList.add("grass");   // adding grass-class to new grass div
+    var Grassline = document.getElementById("grass-line"); // get Grass-line element
+    Grassline.appendChild(NewGrass); // append new grass div to grass-line
+    grass_density = getCount(document.getElementById("grass-line"),false)  //refresh the grass_density count for the next input
+    }
+    }
+    else if (x < grass_density) {    // if the user drags the button down, then this will fire
+    x = grass_density-x;  // reduce x to the difference of grass_density and x
+    for (i=0; x > i; i++){ // for each value of x one grass lastChild will be deleted
+    var select = document.getElementById("grass-line");  //select the last child
+    select.removeChild(select.lastChild); //remove the last child
+    grass_density = getCount(document.getElementById("grass-line"),false) //refresh the grass_density count for the next input
+    }
+}
+}
+
+var WeatherObject = document.getElementsByClassName('cloud_big');
+
+
+function addWeather (y){
+for(i=0; i < WeatherObject.length;i++){  //activate clouds
+  var cloud = WeatherObject[i];    // loop through the array of clouds and activate its opacity
+  cloud.style.opacity = y/100;} // divide with 100 to use the numbers between 0.01 and 1 for opacity.
+}
+</script>
+</body>
+</html>
