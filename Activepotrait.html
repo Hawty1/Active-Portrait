@@ -9,7 +9,7 @@
 #Adjustable_Picture{
     display:flex;
     width:315px;
-    background-color:rgba(255, 136, 0, 0.404);
+    background-color:rgba(255, 217, 0, 0.068);
     height:200px;
     }
 #portrait{
@@ -17,7 +17,7 @@
   width:200px;
   height:200px;
   background-color:lightblue;
-  border-style:;
+  
   }
 #grass-line{
   display:flex;
@@ -26,7 +26,7 @@
   width:100%;
   height:3.1em;
   background-color:rgb(25, 187, 65);
-  padding:;
+ 
 }
 .grass{
   position:relative;
@@ -46,6 +46,12 @@ margin-bottom:1%;
 padding:0.1%;
 width:105px;
 border-style:solid;
+}
+.controle-header{
+  font-size:0.5em;
+}
+.controle-slider{
+  height:10px;
 }
 #grass-input{
   width:100px;
@@ -81,9 +87,10 @@ border-style:solid;
   position:relative;
   width:20px;
   height:0.5px;
-  background-color:black;
-  opacity:0%;
+  background-color:rgb(46, 49, 7);
+  opacity:0;
   }
+
   </style>
 
 </head>
@@ -109,11 +116,13 @@ border-style:solid;
       </div>
 </div>
 <div id="controlebox"><form>
-    <label for="grass-input" style="font-size:0.8em;">Grass-density</label>
-    <input type="range" id="grass-input" name="grass" min="1" max="62" value="1" oninput="addGrass(this.value)" background:"transparent">
+
+    <label for="weather-input" class="controle-header"> Weather-effects</label>
+  <input type="range" class="controle-slider" id="weather-input" name="weather" min="1" max="100" value="1" oninput="addWeather(this.value)">
+    <label for="grass-input" class="controle-header"> Grass-density</label>
+    <input type="range" class="controle-slider" id="grass-input" name="grass" min="1" max="62" value="1" oninput="addGrass(this.value)" background:"transparent">
     <!--    <button type="button" onclick="console.log(grass_density)"> </button> -->
-    <input type="range" id="weather-input" name="weather" min="1" max="100" value="1" oninput="addWeather(this.value)">
-    </form></div>
+  </form></div>
 
 </div>
 <script>
@@ -162,13 +171,17 @@ function addGrass(x){
 }
 
 var WeatherObject = document.getElementsByClassName('cloud_big');
-
+var WeatherObject_2 = document.getElementsByClassName("sun-light")
 
 function addWeather (y){
 for(i=0; i < WeatherObject.length;i++){  //activate clouds
   var cloud = WeatherObject[i];    // loop through the array of clouds and activate its opacity
   cloud.style.opacity = y/100;} // divide with 100 to use the numbers between 0.01 and 1 for opacity.
-}
+for(i=0; i < WeatherObject_2.length;i++){
+  var sun_light = WeatherObject_2[i]; //
+  sun_light.style.opacity = y/100;
+}  
+  }
 </script>
 </body>
 </html>
